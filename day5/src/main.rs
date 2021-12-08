@@ -12,8 +12,8 @@ impl Coordinate {
     fn new(coord_string: &str) -> Self {
         let coord_split: Vec<&str> = coord_string.split(',').collect();
         Self {
-            x: coord_split[0].parse::<i32>().unwrap(),
-            y: coord_split[1].parse::<i32>().unwrap(),
+            x: coord_split[0].trim().parse::<i32>().unwrap(),
+            y: coord_split[1].trim().parse::<i32>().unwrap(),
         }
     }
 
@@ -32,7 +32,7 @@ impl Coordinate {
                     y: index,
                 });
             }
-        } else {
+        } else if self.y == coord.y {
             let x1 = cmp::min(self.x, coord.x);
             let x2 = cmp::max(self.x, coord.x) + 1;
             for index in x1..x2 {
@@ -48,17 +48,13 @@ impl Coordinate {
 }
 
 fn main() {
-    let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let contents = fs::read_to_string("input1").expect("Something went wrong reading the file");
     let v: Vec<&str> = contents
         .split('\n')
         .filter(|value| !value.is_empty())
         .collect();
     //println!("{:?}", v);
 
-    println!(
-        "{:?}",
-        Coordinate::new("10,30").make_range(Coordinate::new("5,30"))
-    );
     let mut path_map = HashMap::new();
     for line in v {
         let line_split: Vec<&str> = line.split(" -> ").collect();
@@ -76,11 +72,12 @@ fn main() {
         }
     }
 
+    //println!("{:?}", path_map);
     //println!("{:?}", path_map.len());
     path_map = path_map
         .into_iter()
         .filter(|(_k, v)| *v > 1)
         .collect::<HashMap<String, i32>>();
-    // println!("{:?}", path_map);
     println!("{:?}", path_map.len());
+    //println!("{:?}", path_map);
 }
