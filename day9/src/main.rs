@@ -41,30 +41,6 @@ fn main() {
         })
         .collect::<Vec<Vec<u32>>>();
 
-    let low_points = v
-        .iter()
-        .enumerate()
-        .map(|(idx, list)| {
-            list.iter()
-                .enumerate()
-                .filter(|(idx2, height)| check_neighbours(&v, *idx2, idx, **height))
-                .collect::<Vec<(usize, &u32)>>()
-                .iter()
-                .map(|(_idx, num)| **num)
-                .collect::<Vec<u32>>()
-        })
-        .collect::<Vec<Vec<u32>>>();
-
-    println!(
-        "{:?}",
-        low_points
-            .iter()
-            .map(|low_point| low_point.iter().fold(0, |sum, num| { sum + num + 1 }))
-            .collect::<Vec<u32>>()
-            .iter()
-            .sum::<u32>()
-    );
-
     let mut low_point_locations = vec![];
     for i in 0..v.len() {
         for j in 0..v[i].len() {
@@ -73,5 +49,14 @@ fn main() {
             }
         }
     }
+    println!(
+        "{:?}",
+        low_point_locations
+            .iter()
+            .map(|(x, y)| *v.get(*y).unwrap().get(*x).unwrap())
+            .collect::<Vec<u32>>()
+            .iter()
+            .fold(0, |sum, num| { sum + num + 1 })
+    ); // Part 1
     println!("{:?}", low_point_locations);
 }
