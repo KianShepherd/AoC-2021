@@ -41,6 +41,16 @@ impl Coordinate {
                     y: self.y,
                 });
             }
+        } else {
+            let step_dir_horizontal = if self.x > coord.x { -1 } else { 1 };
+            let step_dir_vertical = if self.y > coord.y { -1 } else { 1 };
+            let magnitude = (self.x - coord.x).abs() + 1;
+            for i in 0..magnitude {
+                range.push(Coordinate {
+                    x: self.x + (i * step_dir_horizontal),
+                    y: self.y + (i * step_dir_vertical),
+                });
+            }
         }
 
         range
