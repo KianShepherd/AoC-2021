@@ -2,82 +2,131 @@
 Advent of Code problems for 2021 done in Rust
 
 ## Runtimes
-### Day 1
-#### Part 1
+#### Day 1
+Part 1
+<br>
 took 69.687µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 70.253µs
-### Day 2
-#### Part 1
+#### Day 2
+Part 1
+<br>
 took 126.556µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 112.854µs
-### Day 13
-#### Part 1
+#### Day 3
+Part 1
+<br>
 3429254 : took 212.64µs
-#### Part 2
+<br>
+Part 2
+<br>
 5410338 : took 391.813µs
-### Day 4
-#### Part 1
+<br>
+#### Day 4
+Part 1
+<br>
 took 1.856733ms
-#### Part 2
+<br>
+Part 2
+<br>
 took 3.490396ms
-### Day 5
-#### Part 1
+#### Day 5
+Part 1
+<br>
 took 28.008936ms
-#### Part 2
+<br>
+Part 2
+<br>
 took 58.667921ms
-### Day 6
-#### Part 1
-    
-#### Part 2
+#### Day 6
+Part 1
+<br>
+took 
+<br>
+Part 2
+<br>
 took 13.001µs
-### Day 7
-#### Part 1
+#### Day 7
+Part 1
+<br>
 328.413µs
-#### Part 2
+<br>
+Part 2
+<br>
 1.056793ms
-### Day 8
-#### Part 1
+#### Day 8
+Part 1
+<br>
 took 101.423µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 310.923µs
-### Day 9
-#### Part 1
+#### Day 9
+Part 1
+<br>
 took 867.488µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 7.837103ms
-### Day 10
-#### Part 1
+#### Day 10
+Part 1
+<br>
 took 253.902µs 
-#### Part 2
+<br>
+Part 2
+<br>
 took 458.081µs
-### Day 11
-#### Part 1
+#### Day 11
+Part 1
+<br>
 took 249.633µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 569.919µs
-### Day 12
-#### Part 1
+#### Day 12
+Part 1
+<br>
 
-#### Part 2
+<br>
+Part 2
+<br>
 
-### Day 13
-#### Part 1
+#### Day 13
+Part 1
+<br>
 took 131.852µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 320.026µs
-### Day 14
-#### Part 1
+#### Day 14
+Part 1
+<br>
 took 183.275µs
-#### Part 2
+<br>
+Part 2
+<br>
 took 670.81µs
-### Day 15
-#### Part 1
-    
-#### Part 2
+#### Day 15
+Part 1
+<br>
+
+<br>
+Part 2
+<br>
 
 ### Day 16
-#### Part 1
-    
-#### Part 2
+Part 1
+<br>
+
+<br>
+Part 2
+<br>
