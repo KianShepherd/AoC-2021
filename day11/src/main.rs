@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 #[derive(Debug)]
 struct DumboOctopus {
@@ -39,6 +40,7 @@ fn main() {
     const STEPS: usize = 100;
 
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let mut v: Vec<Vec<DumboOctopus>> = contents
         .trim()
         .split('\n')
@@ -87,7 +89,9 @@ fn main() {
         }
     }
 
-    println!("{:?}", total_flashes);
+    println!("{:?} : took {:?}", total_flashes, start.elapsed()); // Part 1
+
+    let start = Instant::now();
     let mut v: Vec<Vec<DumboOctopus>> = contents
         .trim()
         .split('\n')
@@ -139,5 +143,5 @@ fn main() {
         }
     }
 
-    println!("{:?}", loop_counter);
+    println!("{:?} : took {:?}", loop_counter, start.elapsed()); // Part 2
 }

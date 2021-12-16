@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 fn get_neighbours(heights: &[Vec<u32>], x_pos: usize, y_pos: usize) -> Vec<Vec<usize>> {
     let mut neighbours = vec![];
@@ -74,6 +75,7 @@ fn check_neighbours(heights: &[Vec<u32>], x_pos: usize, y_pos: usize, height: u3
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     const RADIX: u32 = 10;
     let v: Vec<Vec<u32>> = contents
         .trim()
@@ -97,16 +99,17 @@ fn main() {
         }
     }
     println!(
-        "{:?}",
+        "{:?} : took {:?}",
         low_point_locations
             .iter()
             .map(|(x, y)| *v.get(*y).unwrap().get(*x).unwrap())
             .collect::<Vec<u32>>()
             .iter()
-            .fold(0, |sum, num| { sum + num + 1 })
+            .fold(0, |sum, num| { sum + num + 1 }),
+            start.elapsed()
     ); // Part 1
        //println!("{:?}", low_point_locations);
-
+    let start = Instant::now();
     let mut basin_sizes = low_point_locations
         .iter()
         .map(|(x, y)| get_basin_size(&v, *x, *y))
@@ -114,5 +117,5 @@ fn main() {
     basin_sizes.sort_unstable();
     basin_sizes.reverse();
 
-    println!("{:?}", basin_sizes[0] * basin_sizes[1] * basin_sizes[2]);
+    println!("{:?} : took {:?}", basin_sizes[0] * basin_sizes[1] * basin_sizes[2], start.elapsed());
 }

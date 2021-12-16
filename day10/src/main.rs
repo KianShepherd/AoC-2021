@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 fn check_for_errors(line: &str) -> usize {
     let mut brackets = vec![];
@@ -74,12 +75,16 @@ fn calculate_score(brackets: String) -> u64 {
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let v: Vec<&str> = contents.trim().split('\n').collect::<Vec<&str>>();
 
     println!(
-        "{:?}",
-        v.iter().map(|line| check_for_errors(line)).sum::<usize>()
+        "{:?} : took {:?}",
+        v.iter().map(|line| check_for_errors(line)).sum::<usize>(),
+        start.elapsed()
     ); //part 1
+
+    let start = Instant::now();
     let incomplete_line = v
         .iter()
         .filter(|line| check_for_errors(*line) == 0)
@@ -92,6 +97,6 @@ fn main() {
         .map(|line| calculate_score(line.to_string()))
         .collect::<Vec<u64>>();
     scores.sort_unstable();
-    println!("{:?}", scores[((scores.len() as f64 / 2.0) - 0.5) as usize]);
+    println!("{:?} : took {:?}", scores[((scores.len() as f64 / 2.0) - 0.5) as usize], start.elapsed());
 }
 

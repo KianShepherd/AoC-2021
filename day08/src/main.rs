@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 fn count_unique(line: &str) -> usize {
     let nums = line.split(' ').collect::<Vec<&str>>();
@@ -85,6 +86,7 @@ fn get_output_value(line: Vec<&str>) -> u32 {
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let v: Vec<&str> = contents.trim().split('\n').collect::<Vec<&str>>();
     //println!("{:?}", v);
     let outputs = v
@@ -92,15 +94,16 @@ fn main() {
         .map(|line| line.split('|').collect::<Vec<&str>>()[1].trim())
         .collect::<Vec<&str>>();
     println!(
-        "{:?}",
+        "{:?} : took {:?}",
         outputs
             .iter()
             .map(|line| count_unique(line))
             .collect::<Vec<usize>>()
             .iter()
-            .sum::<usize>()
+            .sum::<usize>(),
+            start.elapsed()
     ); // Part 1
-
+    let start = Instant::now();
     let lines_ = v
         .iter()
         .map(|line| line.split('|').collect::<Vec<&str>>())
@@ -117,12 +120,13 @@ fn main() {
     }
 
     println!(
-        "{:?}",
+        "{:?} : took {:?}",
         lines
             .iter()
             .map(|line| get_output_value(line.to_vec()))
             .collect::<Vec<u32>>()
             .iter()
-            .sum::<u32>()
+            .sum::<u32>(),
+            start.elapsed()
     );
 }

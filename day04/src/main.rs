@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::{Instant, Duration};
 
 #[derive(Debug, Clone)]
 struct BingoNumber {
@@ -67,6 +68,7 @@ impl Board {
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let v: Vec<&str> = contents.split('\n').collect();
     let bingo_nums = v[0].split(",").collect::<Vec<&str>>();
     let mut rows = vec![];
@@ -102,6 +104,9 @@ fn main() {
         }
     }
     let mut i = 0;
+    let mut first_board_done = false;
+    let mut first_done = Duration::new(0, 0);
+    let mut first_answer = 0;
 
     loop {
         let bingo_num = bingo_nums[i].parse::<i32>().unwrap();
@@ -109,8 +114,14 @@ fn main() {
         let boards_length = bingo_boards.len();
         for board in bingo_boards.iter_mut() {
             board.play_bingo(bingo_num);
+            if !first_board_done && board.is_done() {
+                first_board_done = true;
+                first_done = start.elapsed();
+                first_answer = board.sum_not_selected() * bingo_num;
+            }
             if boards_length == 1 && board.is_done() {
-                println!("{:?}", bingo_boards[0].sum_not_selected() * bingo_num);
+                println!("{:?} : took {:?}", first_answer, first_done);
+                println!("{:?} : took {:?}", bingo_boards[0].sum_not_selected() * bingo_num, start.elapsed());
                 return;
             }
             if !board.is_done() {

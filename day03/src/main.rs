@@ -1,17 +1,12 @@
 use std::fs;
-
-#[derive(Debug)]
-struct Counter {
-    one_count: i32,
-    zero_count: i32,
-}
+use std::time::Instant;
 
 enum BitCriteria {
     Most,
     Least,
 }
 
-fn filter_arr(nums: Vec<Vec<i32>>, index: usize, criteria: BitCriteria) -> Vec<Vec<i32>>{
+fn filter_arr(nums: Vec<Vec<i32>>, index: usize, criteria: BitCriteria) -> Vec<Vec<i32>> {
     let mut count_ones = 0;
     let mut count_zeros = 0;
     let mut ones = vec![];
@@ -36,7 +31,7 @@ fn filter_arr(nums: Vec<Vec<i32>>, index: usize, criteria: BitCriteria) -> Vec<V
             } else {
                 ones
             }
-        },
+        }
         BitCriteria::Least => {
             if count_ones > count_zeros {
                 zeros
@@ -45,7 +40,28 @@ fn filter_arr(nums: Vec<Vec<i32>>, index: usize, criteria: BitCriteria) -> Vec<V
             } else {
                 zeros
             }
-        },
+        }
+    }
+}
+
+fn part1(nums: &Vec<Vec<i32>>, index: usize) -> i32 {
+    let mut count_ones = 0;
+    let mut count_zeros = 0;
+
+    for num_arr in nums {
+        if num_arr[index] == 1 {
+            count_ones += 1;
+        } else {
+            count_zeros += 1;
+        }
+    }
+
+    if count_ones > count_zeros {
+        1
+    } else if count_zeros > count_ones {
+        0
+    } else {
+        1
     }
 }
 
@@ -68,7 +84,37 @@ fn num_arr_to_i32(nums: &Vec<i32>) -> i32 {
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let v: Vec<&str> = contents.split('\n').collect();
+    let mut values = vec![];
+    let mut binary = vec![];
+    let mut epsilon = vec![];
+    for line in v.clone() {
+        let mut nums = vec![];
+        for chr in line.chars() {
+            if chr == '1' {
+                nums.push(1);
+            } else {
+                nums.push(0);
+            }
+        }
+        if nums.len() > 1 {
+            values.push(nums);
+        }
+    }
+    for i in 0..values[0].len() {
+        let value = part1(&values, i);
+        binary.push(value);
+        epsilon.push((value - 1).abs())
+    }
+    println!("{:?}", binary);
+    println!(
+        "{:?} : took {:?}",
+        num_arr_to_i32(&binary) * num_arr_to_i32(&epsilon),
+        start.elapsed()
+    );
+
+    let start = Instant::now();
     let mut values = vec![];
     for line in v {
         let mut nums = vec![];
@@ -100,5 +146,9 @@ fn main() {
     //let coo_rating = coo_rating[0].clone();
     //println!("{:?}", oxegen_rating);
     //println!("{:?}", coo_rating);
-    println!("{:?}", num_arr_to_i32(&oxegen_rating[0]) * num_arr_to_i32(&coo_rating[0]));
+    println!(
+        "{:?} : took {:?}",
+        num_arr_to_i32(&oxegen_rating[0]) * num_arr_to_i32(&coo_rating[0]),
+        start.elapsed()
+    );
 }

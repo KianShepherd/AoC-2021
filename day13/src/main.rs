@@ -1,4 +1,5 @@
 use std::{collections::HashSet, fs};
+use std::time::Instant;
 
 fn sanatize_points(_points: Vec<(usize, usize)>) -> Vec<(usize, usize)> {
     let mut point_set: HashSet<(usize, usize)> = HashSet::new();
@@ -47,6 +48,7 @@ fn fold_paper(
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let v: Vec<&str> = contents.trim().split('\n').collect::<Vec<&str>>();
     let mut points = vec![];
     let mut folds = vec![];
@@ -75,15 +77,16 @@ fn main() {
         }
     }
 
-    println!("{:?}", points.len());
+    //println!("{:?}", points.len());
     //println!("{:?}", points);
     //println!("{:?}", folds);
     let first_fold = folds[0];
     println!(
-        "{:?}",
-        fold_paper(points.clone(), first_fold.0, first_fold.1).len()
+        "{:?} : took {:?}",
+        fold_paper(points.clone(), first_fold.0, first_fold.1).len(),
+        start.elapsed()
     ); // Part 1
-
+    let start = Instant::now();
     for fold in folds {
         points = fold_paper(points.clone(), fold.0, fold.1);
     }
@@ -108,10 +111,12 @@ fn main() {
     for point in points.clone() {
         display[point.1][point.0] = "#";
     }
+    let elapsed = start.elapsed();
     for line in &display {
         for chr in line {
             print!("{}", chr);
         }
         println!();
     } // Part 2
+    println!("took {:?}", elapsed);
 }

@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 #[derive(Debug)]
 struct Fish {
@@ -7,6 +8,7 @@ struct Fish {
 
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let fishes: Vec<i32> = contents
         .trim()
         .split(',')
@@ -31,10 +33,11 @@ fn main() {
     }
 
     println!(
-        "{:?}",
+        "{:?} : took {:?}",
         fish_struct.iter().fold(0, |mut sum, fish| {
             sum += fish.count;
             sum
-        })
+        }),
+        start.elapsed()
     );
 }

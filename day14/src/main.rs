@@ -1,9 +1,11 @@
 use std::collections::HashMap;
 use std::fs;
+use std::time::Instant;
 
 fn main() {
     const ROUNDS: usize = 40;
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let mut v = contents.trim().split('\n');
     let polymer_string = v.next().unwrap().to_string();
     let first_element = polymer_string.chars().next().unwrap();
@@ -88,7 +90,7 @@ fn main() {
             highest = *element;
         }
     }
-
+    let elapsed = start.elapsed();
     //println!("{:?}", chars_map);
-    println!("{:?}", highest - lowest); // Part 1 & 2
+    println!("{:?} : took {:?}", highest - lowest, elapsed); // Part 1 & 2
 }

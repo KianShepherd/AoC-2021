@@ -1,6 +1,7 @@
 use std::cmp;
 use std::collections::HashMap;
 use std::fs;
+use std::time::Instant;
 
 #[derive(Debug)]
 struct Coordinate {
@@ -55,10 +56,36 @@ impl Coordinate {
 
         range
     }
+
+    fn make_range_p1(&self, coord: Coordinate) -> Vec<Coordinate> {
+        let mut range = vec![];
+        if self.x == coord.x {
+            let y1 = cmp::min(self.y, coord.y);
+            let y2 = cmp::max(self.y, coord.y) + 1;
+            for index in y1..y2 {
+                range.push(Coordinate {
+                    x: self.x,
+                    y: index,
+                });
+            }
+        } else if self.y == coord.y {
+            let x1 = cmp::min(self.x, coord.x);
+            let x2 = cmp::max(self.x, coord.x) + 1;
+            for index in x1..x2 {
+                range.push(Coordinate {
+                    x: index,
+                    y: self.y,
+                });
+            }
+        }
+
+        range
+    }
 }
 
 fn main() {
     let contents = fs::read_to_string("input1").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let v: Vec<&str> = contents
         .split('\n')
         .filter(|value| !value.is_empty())
@@ -88,6 +115,6 @@ fn main() {
         .into_iter()
         .filter(|(_k, v)| *v > 1)
         .collect::<HashMap<String, i32>>();
-    println!("{:?}", path_map.len());
+    println!("{:?} : took {:?}", path_map.len(), start.elapsed());
     //println!("{:?}", path_map);
 }

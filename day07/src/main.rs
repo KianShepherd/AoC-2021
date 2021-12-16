@@ -1,12 +1,18 @@
 use std::fs;
+use std::time::Instant;
 
 fn calc_cost(move_to: i32, location: i32) -> i32 {
     let total_distance = (location - move_to).abs();
     (total_distance * (total_distance + 1)) / 2
 }
 
+fn calc_cost_p1(move_to: i32, location: i32) -> i32 {
+    (location - move_to).abs()
+}
+
 fn main() {
     let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let start = Instant::now();
     let crab_locations: Vec<i32> = {
         let mut _crab_locations: Vec<i32> = contents
             .trim()
@@ -18,16 +24,16 @@ fn main() {
     };
     let min_location = crab_locations[0];
     let max_location = crab_locations[crab_locations.len() - 1];
-    println!(
+    /*println!(
         "{:?}\n{:?}\n{:?}",
         crab_locations, min_location, max_location
-    );
+    );*/
     let mut fuel_costs = vec![];
     for i in min_location..max_location {
         fuel_costs.push(
             crab_locations
                 .iter()
-                .map(|location| calc_cost(i, *location))
+                .map(|location| calc_cost_p1(i, *location))
                 .fold(0, |mut sum, cost| {
                     sum += cost;
                     sum
@@ -41,5 +47,5 @@ fn main() {
             min = fuel_cost;
         }
     }
-    println!("{:?}", min);
+    println!("{:?} : took {:?}", min, start.elapsed());
 }
