@@ -46,11 +46,11 @@ took 58.667921ms
 #### Day 6
 Part 1
 <br>
-took 17.966µs
+took 8.336µs
 <br>
 Part 2
 <br>
-took 13.001µs
+took 7.919µs
 #### Day 7
 Part 1
 <br>

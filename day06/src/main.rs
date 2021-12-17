@@ -14,7 +14,7 @@ fn main() {
         .split(',')
         .filter_map(|w| w.parse::<i32>().ok())
         .collect();
-    let days = 80;
+    let days = 256;
     let mut fish_struct = vec![];
     for _i in 0..9 {
         fish_struct.push(Fish { count: 0 });
