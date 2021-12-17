@@ -46,7 +46,7 @@ took 58.667921ms
 #### Day 6
 Part 1
 <br>
-took 
+took 17.966µs
 <br>
 Part 2
 <br>
@@ -94,11 +94,11 @@ took 569.919µs
 #### Day 12
 Part 1
 <br>
-
+took 3.033304ms
 <br>
 Part 2
 <br>
-
+855.638907ms
 #### Day 13
 Part 1
 <br>
@@ -118,12 +118,28 @@ took 670.81µs
 #### Day 15
 Part 1
 <br>
+1.827341ms
+<br>
+Part 2
+<br>
+58.159773ms
+### Day 16
+Part 1
+<br>
 
 <br>
 Part 2
 <br>
 
-### Day 16
+### Day 17
+Part 1
+<br>
+took 4.815391ms
+<br>
+Part 2
+<br>
+took 4.815391ms
+### Day 18
 Part 1
 <br>
 

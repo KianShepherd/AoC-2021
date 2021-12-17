@@ -49,8 +49,8 @@ fn main() {
     };
     let mut highest = 0;
     let mut count_hits = 0;
-    for x in 0..127 {
-        for y in -500..500 {
+    for x in 0..(bounding_box.2 + 1) {
+        for y in (bounding_box.3 - 1)..500 {
             let height = fire_shot(x, y, bounding_box);
             //println!("{:?}", height);
             if height != -35000 {
