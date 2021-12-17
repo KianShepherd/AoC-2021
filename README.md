@@ -21,11 +21,11 @@ took 112.854µs
 #### Day 3
 Part 1
 <br>
-3429254 : took 212.64µs
+took 212.64µs
 <br>
 Part 2
 <br>
-5410338 : took 391.813µs
+took 391.813µs
 <br>
 #### Day 4
 Part 1
