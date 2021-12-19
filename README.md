@@ -124,19 +124,11 @@ Part 2
 <br>
 58.159773ms
 ### Day 16
-Part 1
+Part 1 & 2
 <br>
-
-<br>
-Part 2
-<br>
-
+took 522.276µs
 ### Day 17
-Part 1
-<br>
-took 4.815391ms
-<br>
-Part 2
+Part 1 & 2
 <br>
 took 4.815391ms
 ### Day 18
