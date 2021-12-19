@@ -2,6 +2,8 @@
 Advent of Code problems for 2021 done in Rust
 
 ## Runtimes
+![runtime](https://user-images.githubusercontent.com/11428675/146663214-d1d2a2d4-0104-430b-a9fe-7713683cb7b9.png)
+
 #### Day 1
 Part 1
 <br>
