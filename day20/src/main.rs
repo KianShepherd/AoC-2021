@@ -40,21 +40,18 @@ struct Image {
     enhancement_algorithm: String,
     width: usize,
     height: usize,
+    is_odd: bool,
 }
 
 impl Image {
     fn new(_input_image: Vec<&str>, enhancement_algorithm: &str) -> Self {
         let mut input_image = vec![];
-        let mut top_bottom_padding = vec![];
-        for _ in 0.._input_image[0].len() + 1 {
-            top_bottom_padding.push('.');
-        }
+        let top_bottom_padding = vec!['.'; _input_image[0].len() + 1];
         input_image.push(top_bottom_padding.clone());
 
         for _line in _input_image {
             let line = _line.trim();
-            let mut new_line = vec![];
-            new_line.push('.');
+            let mut new_line = vec!['.'];
 
             for chr in line.chars() {
                 new_line.push(chr);
@@ -64,16 +61,16 @@ impl Image {
             input_image.push(new_line);
         }
 
-        input_image.push(top_bottom_padding.clone());
+        input_image.push(top_bottom_padding);
 
         let mut map = HashMap::new();
-        let mut keys = vec![];
 
         for (y, line) in input_image.iter().enumerate() {
             for (x, chr) in line.iter().enumerate() {
-                let mapkey = MapKey::new(x as i32, y as i32);
-                map.insert(mapkey.get_key(), if *chr == '#' { 1 } else { 0 });
-                keys.push(mapkey);
+                if *chr == '#' {
+                    let mapkey = MapKey::new(x as i32, y as i32);
+                    map.insert(mapkey.get_key(), 1);
+                }
             }
         }
 
@@ -82,24 +79,33 @@ impl Image {
             enhancement_algorithm: enhancement_algorithm.to_string(),
             width: input_image[0].len(),
             height: input_image.len(),
+            is_odd: false,
         }
     }
 
     fn get_at(&mut self, entry: &MapKey) -> usize {
         if self.pixels.contains_key(&entry.get_key()) {
-            let value = self.pixels.entry(entry.get_key()).or_insert(0);
-            *value
+            1
         } else {
-            self.pixels.insert(entry.get_key(), 0);
-            0
+            if (entry.x < 0
+                || entry.y < 0
+                || entry.x >= self.width as i32
+                || entry.y >= self.height as i32)
+                && self.enhancement_algorithm.starts_with('#')
+                && self.is_odd
+            {
+                1
+            } else {
+                0
+            }
         }
     }
 
     fn enhance(&mut self) {
         let mut new_map = HashMap::new();
 
-        for y in 0..self.height + 1 {
-            for x in 0..self.width + 1 {
+        for y in 0..self.height {
+            for x in 0..self.width {
                 let mut enhanced_index = 0;
                 let mut neighbours = MapKey::new(x as i32, y as i32).get_neighbours();
                 neighbours.reverse();
@@ -108,30 +114,39 @@ impl Image {
                         enhanced_index += 2_u32.pow(index as u32);
                     }
                 }
-                new_map.insert(
-                    MapKey::new((x + 1) as i32, (y + 1) as i32).get_key(),
-                    if self
-                        .enhancement_algorithm
-                        .chars()
-                        .nth(enhanced_index as usize)
-                        .unwrap()
-                        .to_string()
-                        .trim()
-                        == "#"
-                    {
-                        1
-                    } else {
-                        0
-                    },
-                );
+                if self
+                    .enhancement_algorithm
+                    .chars()
+                    .nth(enhanced_index as usize)
+                    .unwrap()
+                    .to_string()
+                    .trim()
+                    == "#"
+                {
+                    new_map.insert(MapKey::new((x + 1) as i32, (y + 1) as i32).get_key(), 1);
+                }
             }
         }
+
         self.width += 2;
         self.height += 2;
+        if !self.is_odd && self.enhancement_algorithm.starts_with('#') {
+            for i in 0..self.width {
+                new_map.insert(MapKey::new(i as i32, 0).get_key(), 1);
+                new_map.insert(MapKey::new(i as i32, self.height as i32 - 1).get_key(), 1);
+            }
+            for i in 0..self.height {
+                new_map.insert(MapKey::new(0, i as i32).get_key(), 1);
+                new_map.insert(MapKey::new(self.width as i32 - 1, i as i32).get_key(), 1);
+            }
+        }
+
         self.pixels = new_map.clone();
+        self.is_odd = !self.is_odd;
     }
 
     fn draw(&mut self) {
+        self.is_odd = false;
         for y in 0..self.height {
             for x in 0..self.width {
                 print!(
@@ -149,7 +164,8 @@ impl Image {
 }
 
 fn main() {
-    let contents = fs::read_to_string("input1").expect("Something went wrong reading the file");
+    // input2 answer = 5326
+    let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
     let start = Instant::now();
     let mut v = contents.trim().split('\n');
     let enhancement_algorithm = v.next().unwrap();
@@ -157,13 +173,13 @@ fn main() {
     let mut image = Image::new(v.collect::<Vec<&str>>(), enhancement_algorithm);
     //println!("{:?}", image);
 
-    image.draw();
+    //image.draw();
     image.enhance();
-    println!();
-    image.draw();
+    //println!();
+    //image.draw();
     image.enhance();
-    println!();
-    image.draw();
+    //println!();
+    //image.draw();
 
     println!(
         "{:?}",
