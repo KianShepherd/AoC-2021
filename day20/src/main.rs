@@ -48,19 +48,22 @@ impl Image {
         let mut input_image = vec![];
         let top_bottom_padding = vec!['.'; _input_image[0].len() + 1];
         input_image.push(top_bottom_padding.clone());
+        input_image.push(top_bottom_padding.clone());
 
         for _line in _input_image {
             let line = _line.trim();
-            let mut new_line = vec!['.'];
+            let mut new_line = vec!['.', '.'];
 
             for chr in line.chars() {
                 new_line.push(chr);
             }
 
             new_line.push('.');
+            new_line.push('.');
             input_image.push(new_line);
         }
 
+        input_image.push(top_bottom_padding.clone());
         input_image.push(top_bottom_padding);
 
         let mut map = HashMap::new();
@@ -123,13 +126,13 @@ impl Image {
                     .trim()
                     == "#"
                 {
-                    new_map.insert(MapKey::new((x + 1) as i32, (y + 1) as i32).get_key(), 1);
+                    new_map.insert(MapKey::new((x + 2) as i32, (y + 2) as i32).get_key(), 1);
                 }
             }
         }
 
-        self.width += 2;
-        self.height += 2;
+        self.width += 4;
+        self.height += 4;
         if !self.is_odd && self.enhancement_algorithm.starts_with('#') {
             for i in 0..self.width {
                 new_map.insert(MapKey::new(i as i32, 0).get_key(), 1);
@@ -165,7 +168,7 @@ impl Image {
 
 fn main() {
     // input2 answer = 5326
-    let contents = fs::read_to_string("input").expect("Something went wrong reading the file");
+    let contents = fs::read_to_string("input2").expect("Something went wrong reading the file");
     let start = Instant::now();
     let mut v = contents.trim().split('\n');
     let enhancement_algorithm = v.next().unwrap();
@@ -179,7 +182,7 @@ fn main() {
     //image.draw();
     image.enhance();
     //println!();
-    //image.draw();
+    image.draw();
 
     println!(
         "{:?}",
